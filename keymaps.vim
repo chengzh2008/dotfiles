@@ -17,7 +17,7 @@ nnoremap <tab> >>
 nnoremap <S-Tab> <<
 vnoremap <tab> >gv
 vnoremap <S-Tab> <gv
-nmap <F7> :lw<CR>
+" nmap <F7> :lw<CR>
 nmap <F8> :NERDTree<CR>
 nmap <F9> :NERDTreeFind<CR>
 nnoremap <F4> :silent CycleColorNext<CR> \| :CycleColorRefresh<CR> \| :echo colors_name<CR>
@@ -30,6 +30,10 @@ vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 nmap <leader><space> :CtrlPMRUFiles<CR>
 nmap <leader><enter> :CtrlPBuffer<CR>
+
+" vim buffer tabs shortcuts
+nmap <F7> :bnext<CR>
+nmap <F6> :bprevious<CR>
 
 " perforce shortcuts
 nnoremap <leader>pe :silent !p4 edit %<CR>
