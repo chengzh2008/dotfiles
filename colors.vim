@@ -32,7 +32,7 @@ set background=light
 " set background=light
 " colorscheme github | let g:airline_theme='sol'
 " colorscheme Userscape
-colorscheme hemisu | let g:airline_theme='sol'
+colorscheme cleanroom | let g:airline_theme='sol'
 
 " toggle between light and dark themes
 function! ToggleTheme()
