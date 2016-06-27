@@ -1,7 +1,7 @@
-source ~/.config/nvim/keymaps.vim
-source ~/.config/nvim/plugins.vim
-source ~/.config/nvim/functions.vim
-source ~/.config/nvim/commands.vim
-source ~/.config/nvim/settings.vim
-source ~/.config/nvim/events.vim
-source ~/.config/nvim/colors.vim
+source ~/code/dotfiles/keymaps.vim
+source ~/code/dotfiles/plugins.vim
+source ~/code/dotfiles/functions.vim
+source ~/code/dotfiles/commands.vim
+source ~/code/dotfiles/settings.vim
+source ~/code/dotfiles/events.vim
+source ~/code/dotfiles/colors.vim
