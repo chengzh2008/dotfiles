@@ -1,6 +1,7 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'MatchTag'
+" Plug 'szw/vim-tags'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'badwolf'
 Plug 'bitc/vim-hdevtools'
@@ -81,7 +82,8 @@ let g:ctrlp_show_hidden = 1
 " let g:airline_theme='lucius' "good with mattland, flatland, graded_a"
 " let g:airline_theme='tomorrow' "good with flatlandia"
 " let g:airline_theme='zenburn' "~good with mattland"
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ' '
@@ -123,3 +125,10 @@ let g:markology_disable_mappings = 1
 " tern
 " turn off annoying and mostly useless auto preview window
 autocmd BufEnter *.js set completeopt-=preview
+
+
+" vim tags
+" let g:vim_tags_auto_generate = 1
+" let g:vim_tags_ignore_files = ['.gitignore', '.svnignore', '.p4config']
+" let g:vim_tags_ignore_files_comment_pattern = '^[#"]'
+" let g:vim_tags_directories = ['.git', '.svn']

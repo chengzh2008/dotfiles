@@ -21,7 +21,7 @@ set magic
 set visualbell
 set noerrorbells
 set wildignore+=build,.git,.npm,*.swp,*.tgz,*.zip,*.gz
-set backupdir=/tmp,/home/sawyer/devel/vim_tmp
+set backupdir=/tmp,/home/zcheng/code/vim_tmp
 set noautochdir
 set wildmenu
 set wildmode=longest,list

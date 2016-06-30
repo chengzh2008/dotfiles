@@ -12,6 +12,7 @@ au BufRead set nofoldenable
 " attempt to go to the line we last left when reopening a file
 au BufWinLeave ?* mkview
 au BufWinEnter ?* silent! loadview
+au BufWinEnter ?* set colorcolumn=100 | highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
 
 au BufRead,BufNewFile *.js set tabstop=4 | set softtabstop=4 | set shiftwidth=4
 
