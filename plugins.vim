@@ -1,7 +1,7 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'MatchTag'
-" Plug 'szw/vim-tags'
+" " Plug 'szw/vim-tags'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'badwolf'
 Plug 'bitc/vim-hdevtools'
@@ -40,6 +40,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
+
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
 " Plug 'kien/rainbow_parentheses.vim'
@@ -65,8 +66,12 @@ let g:badwolf_darkgutter = 1
 let g:ctrlp_map = '<c-q>'
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_root_markers = ['.p4config', '*.def.inc', 'Rakefile', '.git/']
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_working_path_mode = 'rw' 
+" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+	\ 'file': '\v\.(exe|so|dll|class|xml|inc|cert)$',
+	\ }
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:50'
 let g:ctrlp_show_hidden = 1
 
