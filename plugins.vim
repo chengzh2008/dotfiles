@@ -40,6 +40,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
+Plug 'https://github.com/rking/ag.vim.git'
 
 " Plug 'grassdog/tagman.vim'
 " Plug 'maxbrunsfeld/vim-yankstack'
@@ -58,6 +59,9 @@ let g:javascript_enable_domhtmlcss = 1
 " signify
 " let g:signify_vcs_list = [ 'git', 'perforce' ]
 let g:signify_vcs_list = [ 'git' ]
+
+" ag config 
+let g:ag_working_path_mode='r'
 
 " badwolf
 let g:badwolf_darkgutter = 1

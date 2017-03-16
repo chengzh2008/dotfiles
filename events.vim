@@ -16,6 +16,14 @@ au BufRead set nofoldenable
 au BufWinEnter ?* set colorcolumn=100 | highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
 
 au BufRead,BufNewFile *.js set tabstop=4 | set softtabstop=4 | set shiftwidth=4
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
 
 au BufRead,BufNewFile *.hs,*.lhs set expandtab | set tabstop=2 | set softtabstop=2 | set shiftwidth=2
 
