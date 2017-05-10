@@ -31,8 +31,12 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     markdown
      python
+       (python :variables python-enable-yapf-format-on-save t)
+       (python :variables python-test-runner 'nose)
+       (python :variables python-sort-imports-on-save t)
+     markdown
+     ;;python
      yaml
      html
      ;;scala
@@ -46,7 +50,7 @@ values."
      helm
      auto-completion
        (haskell :variables haskell-completion-backend 'intero)
-     ;;  (javascript :variables javascript-disable-tern-port-files nil)
+       (javascript :variables javascript-disable-tern-port-files t)
      ;; better-defaults
      emacs-lisp
      git
@@ -57,7 +61,7 @@ values."
      ;;        shell-default-position 'bottom)
      ;;spell-checking
      syntax-checking
-     ;;version-control
+     version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -135,9 +139,10 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(leuven
-                         spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         deeper-blue
+                         leuven
+                         spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -259,7 +264,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -290,7 +295,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup `changed
    ))
 
 (defun dotspacemacs/user-init ()
@@ -300,6 +305,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+      ;; disable the flycheck for python. it consumes a large chunk of memory
+      ;;(remove-hook 'python-mode-hook 'flycheck-mode)
 ;;    (push '("melpa-stable" . "stable.melpa.org/packages/") configuration-layer--elpa-archives)
 ;;    (push '("ensime" . "melpa-stable") package-pinned-packages)
   )
@@ -311,8 +318,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq tern-command '("node" "/home/zcheng/.nvm/versions/node/v4.4.5/bin/tern"))
-  (setq js2-include-node-externs t)
+    ;; (remove-hook 'python-mode-hook 'flycheck-mode)
+
+    (setq tern-command '("node" "/home/zcheng/.nvm/versions/node/v4.4.5/bin/tern"))
+    (setq js2-include-node-externs t)
+    (global-hl-line-mode -1)
 ;;  (setq eclim-eclipse-dirs "/home/zcheng/tools/eclipse"
 ;;        eclim-executable "/home/zcheng/tools/eclipse/eclim"
 ;;        eclimd-executable "/home/zcheng/tools/eclipse/eclimd"
