@@ -39,7 +39,7 @@ values."
      ;;python
      yaml
      html
-     ;;scala
+     java
      javascript
      haskell
      ;; ----------------------------------------------------------------
@@ -324,10 +324,10 @@ you should place your code here."
     (setq tern-command '("node" "/home/zcheng/.nvm/versions/node/v4.4.5/bin/tern"))
     (setq js2-include-node-externs t)
     (global-hl-line-mode -1)
-;;  (setq eclim-eclipse-dirs "/home/zcheng/tools/eclipse"
-;;        eclim-executable "/home/zcheng/tools/eclipse/eclim"
-;;        eclimd-executable "/home/zcheng/tools/eclipse/eclimd"
-;;        eclimd-default-workspace "/home/zcheng/eclipse-workspaces")
+    (setq eclim-eclipse-dirs "~/tools/eclipse"
+          eclim-executable "~/tools/eclipse/eclim"
+          eclimd-executable "/home/zcheng/tools/eclipse/eclimd"
+          eclimd-default-workspace "/home/zcheng/eclipse-workspaces")
 ;;   (setq exec-path (append exec-path '("/usr/local/bin")))
 ;;   (add-hook 'java-mode-hook 'scala/configure-ensime)
 ;;   (add-hook 'java-mode-hook 'scala/maybe-start-ensime) 
