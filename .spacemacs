@@ -141,10 +141,11 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          spacemacs-light
+                         spacemacs-dark
                          tsdh-dark
                          deeper-blue
                          leuven
-                         spacemacs-dark)
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -325,13 +326,19 @@ you should place your code here."
     (setq tern-command '("node" "/home/zcheng/.nvm/versions/node/v4.4.5/bin/tern"))
     (setq js2-include-node-externs t)
     (global-hl-line-mode -1)
-    (setq eclim-eclipse-dirs "~/tools/eclipse"
-          eclim-executable "~/tools/eclipse/eclim"
-          eclimd-executable "/home/zcheng/tools/eclipse/eclimd"
-          eclimd-default-workspace "/home/zcheng/eclipse-workspaces")
+;;    (setq eclim-eclipse-dirs "~/tools/eclipse"
+;;          eclim-executable "~/tools/eclipse/eclim"
+;;          eclimd-executable "/home/zcheng/tools/eclipse/eclimd"
+;;          eclimd-default-workspace "/home/zcheng/eclipse-workspaces"
+;;          eclimd-wait-for-process t)
 ;;   (setq exec-path (append exec-path '("/usr/local/bin")))
 ;;   (add-hook 'java-mode-hook 'scala/configure-ensime)
-;;   (add-hook 'java-mode-hook 'scala/maybe-start-ensime) 
+;;   (add-hook 'java-mode-hook 'scala/maybe-start-ensime)
+;;    (require 'meghanada)
+;;    (add-hook 'java-mode-hook
+;;              (lambda ()
+;;                (meghanada-mode t)
+;;                ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
