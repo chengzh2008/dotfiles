@@ -148,6 +148,7 @@ values."
    dotspacemacs-themes '(
                          spacemacs-dark
                          spacemacs-light
+                         spacemacs-dark
                          tsdh-dark
                          deeper-blue
                          leuven
@@ -352,6 +353,16 @@ you should place your code here."
     (unless window-system
       (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
       (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+;;          eclimd-default-workspace "/home/zcheng/eclipse-workspaces"
+;;          eclimd-wait-for-process t)
+;;   (setq exec-path (append exec-path '("/usr/local/bin")))
+;;   (add-hook 'java-mode-hook 'scala/configure-ensime)
+;;   (add-hook 'java-mode-hook 'scala/maybe-start-ensime)
+;;    (require 'meghanada)
+;;    (add-hook 'java-mode-hook
+;;              (lambda ()
+;;                (meghanada-mode t)
+;;                ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
