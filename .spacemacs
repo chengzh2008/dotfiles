@@ -31,9 +31,10 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     rust
-     idris
-     typescript
+     nginx
+     ;;racket
+     ;;idris
+     ;;typescript
      purescript
      python
        (python :variables python-enable-yapf-format-on-save t)
@@ -43,10 +44,11 @@ values."
      ;;python
      yaml
      html
-     java
+     ;;java
      javascript
      haskell
-     agda
+     ;;agda
+     ;;scala
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -54,7 +56,11 @@ values."
      ;; ----------------------------------------------------------------
      helm
      auto-completion
-       (haskell :variables haskell-completion-backend 'intero)
+       ;; (haskell :variables haskell-completion-backend 'intero)
+       ;; dante setup
+       (haskell :variables haskell-completion-backend 'dante)
+       (syntax-checking :variables syntax-checking-enable-by-default nil)
+
        (haskell :variables haskell-enable-hindent-style "johan-tibell")
        (javascript :variables javascript-disable-tern-port-files t)
      ;; better-defaults
@@ -73,7 +79,8 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   ;; nix/dante setup
+   dotspacemacs-additional-packages '(nix-sandbox)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -330,6 +337,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
     ;; (remove-hook 'python-mode-hook 'flycheck-mode)
 
+    ;;(add-hook 'dante-mode-hook 'flycheck-mode)
     (setq tern-command '("node" "/home/zcheng/.nvm/versions/node/v4.4.5/bin/tern"))
     (setq idris-interpreter-path "/usr/local/bin/idris")
     (setq js2-include-node-externs t)
@@ -345,8 +353,25 @@ you should place your code here."
 ;;    (require 'haskell-mode)
 ;;    (require 'tidal)
 ;;    (setq tidal-interpreter "/usr/local/bin/ghci")
-    ;;(add-hook 'haskell-mode-hook
-    ;;          (lambda ()
+    ;; nix/dante setup
+    (add-hook 'dante-mode-hook
+              '(lambda () (flycheck-add-next-checker 'haskell-dante
+                                                     '(warning . haskell-hlint))))
+    (setq flycheck-command-wrapper-function
+          (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
+    (setq flycheck-executable-find
+          (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd)))
+
+    ;; Configure haskell-mode (haskell-cabal) to use Nix
+    (setq haskell-process-wrapper-function
+          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))
+    ;; Configure haskell-mode to use cabal new-style builds
+    (setq haskell-process-type 'cabal-new-repl)
+
+    ;; We have limit flycheck to haskell because the above wrapper configuration is global (!)
+    ;; FIXME: How? Using mode local variables?
+    (setq flycheck-global-modes '(haskell-mode))
+
     ;;            (push '("<-" . ?←) prettify-symbols-alist)
     ;;            (push '("->" . ?→) prettify-symbols-alist)))
     ;; Enable mouse support
@@ -375,10 +400,31 @@ you should place your code here."
  '(auto-compile-on-load-mode t)
  '(package-selected-packages
    (quote
-    (ruby-test-mode toml-mode racer flycheck-rust cargo rust-mode idris-mode prop-menu tide typescript-mode psci purescript-mode psc-ide yapfify yaml-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (prettier-js noflet ensime sbt-mode scala-mode nginx-mode racket-mode faceup ruby-test-mode toml-mode racer flycheck-rust cargo rust-mode idris-mode prop-menu tide typescript-mode psci purescript-mode psc-ide yapfify yaml-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-compile-on-load-mode t)
+ '(package-selected-packages
+   (quote
+    (nix-sandbox prettier-js noflet ensime sbt-mode scala-mode nginx-mode racket-mode faceup ruby-test-mode toml-mode racer flycheck-rust cargo rust-mode idris-mode prop-menu tide typescript-mode psci purescript-mode psc-ide yapfify yaml-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements orgit mmm-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
